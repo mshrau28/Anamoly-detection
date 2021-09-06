@@ -15,6 +15,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
 import pandas as pd
 from pandas import DataFrame
+import model
 
 root=tk.Tk()   
 root.title("Anomaly Detection Using Vibration Analysis")
@@ -29,10 +30,10 @@ fram2=ttk.Frame(panedwindow,width=400,height=200, relief=SUNKEN)
 panedwindow.add(fram1, weight=1)  
 panedwindow.add(fram2, weight=1) 
 
-file='0Enew2.csv'
 
-def upload_file():
-    
+
+def upload_file(display_label):
+    global file
     file=tk.filedialog.askopenfilename()
     file=open(file ,'r')
     print(file.read())
@@ -56,10 +57,15 @@ def upload_file():
     toolbar=NavigationToolbar2Tk(canvas, fram1)
     toolbar.update()
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-    
+    model.show_output(file.name,display_label)
 
     
-browse= tk.Button(fram1, text="Browse", bg="black", fg="white", command=lambda: upload_file())  #creating browse button
+
+get_result=tk.Label(root, text="Result", fg="black", font=("", 12))    #creating dataset label
+get_result.place(x=150, y=400) 
+
+
+browse= tk.Button(fram1, text="Browse", bg="black", fg="white", command=lambda: upload_file(get_result))  #creating browse button
 browse.bind("<Button-1>")
 browse.place(x=300, y=100) 
 
@@ -72,13 +78,10 @@ frame = tk.Frame(root, bg='white')
 get_data=tk.Label(fram1, text="Dataset (a CSV file)", fg="black", font=("", 12))    #creating dataset label
 get_data.place(x=100, y=100)
 
-check_result=tk.Button(fram2, text="Check Result", bg="black", fg="white")         #creating check result table
-check_result.bind("<Button-1>")
-check_result.place(x=50, y=50)
 
-#def show_result():          
-#get_result=tk.Label(root, text="Result", fg="black", font=("", 12))    #creating dataset label
-#get_result.place(x=150, y=400)    
+
+       
+    
    
 
 root.mainloop()
